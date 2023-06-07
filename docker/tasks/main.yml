@@ -1,4 +1,4 @@
-#- include_tasks: docker-compose.yml
+- include_tasks: docker-compose.yml
 
 - name: install required packages
   ansible.builtin.apt:
