@@ -1,15 +1,49 @@
-- include_tasks: docker-compose.yml
+#- include_tasks: docker-compose.yml
 
-- name: get docker install script
-  ansible.builtin.get_url:
-    url: https://get.docker.com -o get-docker.sh
-    dest: /tmp/get-docker.sh
-    mode: '755'
+- name: install required packages
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - gnupg
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python3-pip
+      - virtualenv
+      - python3-setuptools
+    state: present
+    update_cache: true
+  become: true
+  
+- name: add docker apt key
+  ansible.builtin.shell: curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | gpg --dearmor --yes -o /etc/apt/keyrings/docker.gpg
+  become: true
+
+- name: modify docker gpg key permission
+  ansible.builtin.file:
+    path: /etc/apt/keyrings/docker.gpg
+    mode: '644'
     owner: root
-    group: root
+    group: docker
+  become: true
+
+- name: add docker repository to docker.list
+  ansible.builtin.lineinfile:
+    path: /etc/apt/sources.list.d/docker.list
+    line: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable"
+    state: present
+  become: true
 
 - name: install docker
-  ansible.builtin.shell: /tmp/get-docker.sh
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin 
+      - docker-compose-plugin
+    state: present
+    update_cache: true
   become: true
 
 - name: copy docker daemon config
@@ -34,51 +68,3 @@
     groups: docker
     append: yes
   become: true
-
-# - name: add docker apt key
-#   ansible.builtin.get_url:
-#     url: https://download.docker.com/linux/ubuntu/gpg
-#     dest: /etc/apt/keyrings/docker.gpg
-#     mode: '644'
-#     owner: root
-#     group: docker
-#   become: true
-
-# - name: add docker apt key
-#   ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg && sudo chmod a+r /etc/apt/keyrings/docker.gpg 
-#   become: true
-
-# - name: add docker apt repository
-#   ansible.builtin.apt_repository:
-#     filename: docker
-#     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
-#     state: present
-#     update_cache: true
-#   become: true
-
-# - name: install required packages
-#   ansible.builtin.apt:
-#     name:
-#       - apt-transport-https
-#       - gnupg
-#       - ca-certificates
-#       - curl
-#       - software-properties-common
-#       - python3-pip
-#       - virtualenv
-#       - python3-setuptools
-#     state: present
-#     update_cache: true
-#   become: true
-
-# - name: install docker
-#   ansible.builtin.apt:
-#     name:
-#       - docker-ce
-#       - docker-ce-cli
-#       - containerd.io
-#       - docker-buildx-plugin 
-#       - docker-compose-plugin
-#     state: present
-#     update_cache: true
-#   become: true
