@@ -1,0 +1,15 @@
+- hosts:
+    - learning
+  roles:
+    - hostname
+    - essentials
+    - security
+    #- certbot
+    #- wireguard
+    #- docker
+  #become: yes
+  become_method: sudo
+  gather_facts: yes
+  # get vars from a file
+  vars_files:
+    - vars/main.yml

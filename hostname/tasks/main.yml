@@ -1,0 +1,18 @@
+- debug:
+    msg: "Hostname is {{ inventory_hostname }}"
+- name: set hostname
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+  become: true
+
+- name: localhost
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: 127.0.0.1 localhost.localdomain localhost {{ inventory_hostname }}
+  become: true
+
+- name: "{{ inventory_hostname }}.{{ domain }}"
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1 {{ inventory_hostname }}.{{ domain }}"
+  become: true

@@ -1,0 +1,26 @@
+### RENAME THIS FILE TO main.yml AND EDIT THE VARIABLES TO YOUR LIKING ###
+
+# set the default values for the variables used in the playbook
+
+# the domain name of the server, can be left blank if you don't have one
+# hostname and essentials roles variables
+
+domain: ""
+the_user: "{{ ansible_user_id }}"
+the_user_home: "/home/{{ the_user }}"
+ipinfoAuth: "" # https://ipinfo.io/account/token
+
+# security and wireguard roles
+ssh_port: 22 # change this to your desired port
+# change this to no if you want to disable password authentication
+ssh_password_auth: yes # defaults to NO
+wireguard_port: 51820 # change this to your desired port if u wish to allow wireguard connections from outside
+wg_iface: wg-server # change this to your desired wireguard interface name
+extra_ports: "80, 443, 9002, 9003" # defaults to 80,443
+# TCP ports to be allowed in ufw and nftables      
+
+nftables_enabled: false # (Suggested) set to false if you don't want to use nftables, default is false
+ufw_enaled: false # set to false if you don't want to use ufw, default is false
+# only one of them can be true, if both are true, ufw will be used
+# if both are false, nothing will be used
+# ufw only includes basic rules for ssh, wireguard, http, https, and extra_ports

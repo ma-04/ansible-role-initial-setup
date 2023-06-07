@@ -1,0 +1,47 @@
+- name: install zsh and zsh suggestion
+  ansible.builtin.apt:
+    name:
+    - zsh
+    - zsh-autosuggestions
+    - zsh-syntax-highlighting
+    state: present
+    update_cache: yes
+  become: true
+
+- name: install oh-my-zsh
+  ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  become: true
+  ignore_errors: true
+
+- name: install oh-my-zsh non-root
+  ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  ignore_errors: true
+
+- name: copy zsh custom config
+  ansible.builtin.copy:
+    src: files/zshrc
+    dest: /home/{{ ansible_user_id }}/.zshrc
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0644
+
+- name: copy zsh custom config to root
+  ansible.builtin.copy:
+    src: files/zshrc
+    dest: /root/.zshrc
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: change users shell to zsh
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/zsh
+  become: true
+  
+- name: change root shell to zsh
+  ansible.builtin.user:
+    name: root
+    shell: /usr/bin/zsh
+  become: true

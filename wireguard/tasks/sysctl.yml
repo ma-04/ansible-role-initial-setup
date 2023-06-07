@@ -1,0 +1,39 @@
+- name: enable ip_forwardning
+  ansible.builtin.sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    state: present
+    reload: yes
+  become: true
+  become_method: sudo
+  notify: restart sysctl
+
+- name: enable ipv6_forwardning
+  ansible.builtin.sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: 1
+    state: present
+    reload: yes
+  become: true
+  become_method: sudo
+  notify: restart sysctl
+
+- name: enable non_local_bind
+  ansible.builtin.sysctl:
+    name: net.ipv4.ip_nonlocal_bind
+    value: 1
+    state: present
+    reload: yes
+  become: true
+  become_method: sudo
+  notify: restart sysctl
+
+- name: enable non_local_bind on ipv6
+  ansible.builtin.sysctl:
+    name: net.ipv6.ip_nonlocal_bind
+    value: 1
+    state: present
+    reload: yes
+  become: true
+  become_method: sudo
+  notify: restart sysctl

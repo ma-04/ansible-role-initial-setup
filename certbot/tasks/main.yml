@@ -1,0 +1,60 @@
+- name: install certbot
+  become: true
+  ansible.builtin.apt:
+    name:
+      - certbot
+      - python3-certbot-nginx
+      - python3-certbot-dns-cloudflare
+    state: present
+    update_cache: yes
+
+- name: create certbot directories
+  ansible.builtin.copy:
+    src: certbot
+    dest: /root/
+    owner: root
+    group: root
+    mode: '700'
+    backup: yes
+  become: true
+
+- name: copy get-cert template to /root/certbot
+  ansible.builtin.template:
+    src: files/get-certs.sh.j2
+    dest: /root/certbot/get-certs.sh
+    owner: root
+    group: root
+    mode: '700'
+    backup: yes
+  become: true
+
+- name: certbot service
+  ansible.builtin.copy:
+    src: files/certbot.service
+    dest: /etc/systemd/system/certbot.service
+    owner: root
+    group: root
+    mode: '644'
+    backup: yes
+  become: true
+
+- name: certbot timer
+  ansible.builtin.copy:
+    src: files/certbot.timer
+    dest: /etc/systemd/system/certbot.timer
+    owner: root
+    group: root
+    mode: '644'
+    backup: yes
+  become: true
+
+- name: ensure certbot.timer is started
+  ansible.builtin.systemd:
+    name: certbot.timer
+    state: started
+    enabled: yes
+  become: true
+
+- name: run get-certs
+  command: /root/certbot/get-certs.sh
+  become: true

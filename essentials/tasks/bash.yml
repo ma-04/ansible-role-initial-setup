@@ -1,0 +1,16 @@
+- name: add .bash_alias file to user home directory
+  ansible.builtin.template:
+    src: files/bash_alias.j2
+    dest: "/home/{{ ansible_user_id }}/.bash_aliases"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0644'
+
+- name: add .bash_alias file to root user home directory
+  ansible.builtin.template:
+    src: files/bash_alias.j2
+    dest: "/root/.bash_aliases"
+    owner: root
+    group: root
+    mode: '755'
+  become: true

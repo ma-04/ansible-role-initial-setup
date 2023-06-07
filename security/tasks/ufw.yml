@@ -1,0 +1,36 @@
+- name: ensure ufw is installed
+  ansible.builtin.apt:
+    name:
+      - ufw
+    state: present
+    autoclean: true
+    clean: true
+    force_apt_get: true
+    install_recommends: true
+    lock_timeout: 60
+    update_cache: true
+  become: true
+
+- name: copy user rules to ufw
+  ansible.builtin.template:
+    src: files/ufw.user.rules.j2
+    dest: /etc/ufw/user.rules
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: copy user ipv5 rules to ufw
+  ansible.builtin.template:
+    src: files/ufw.user6.rules.j2
+    dest: /etc/ufw/user6.rules
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  
+- name: enable ufw
+  ansible.builtin.shell: ufw --force enable
+  become: true
+  ignore_errors: false
+  notify: restart ufw

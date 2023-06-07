@@ -1,0 +1,9 @@
+- name: restart wg-server
+  ansible.builtin.systemd:
+    name: wg-quick@wg-server.service
+    state: restarted
+
+- name: restart sysctl
+  ansible.builtin.shell: "sysctl --system"
+  become: yes
+  become_method: sudo

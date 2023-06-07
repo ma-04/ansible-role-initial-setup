@@ -1,0 +1,26 @@
+- include_tasks: sysctl.yml
+
+- name: install wireguard
+  ansible.builtin.apt:
+    name: wireguard
+    install_recommends: yes
+    state: present
+    update_cache: yes
+  become: true
+
+- name: copy wireguard config
+  ansible.builtin.copy:
+    src: files/{{ inventory_hostname }}.conf
+    dest: /etc/wireguard/wg-server.conf
+    owner: root
+    group: root
+    mode: 0600
+  become: true
+  notify: restart wg-server
+
+- name: ensure wg-quick@wg-server.service is started and enabled at boot
+  ansible.builtin.systemd:
+    name: wg-quick@wg-server.service
+    state: started
+    enabled: yes
+  become: true

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -x
+
+certbot certonly \
+    --quiet \
+    --non-interactive \
+    --agree-tos \
+    --email admin@{{ domain }} \
+    --dns-cloudflare \
+    --dns-cloudflare-credentials /root/certbot/credentials.ini \
+    --dns-cloudflare-propagation-seconds 30 \
+    --domain '{{ ansible_hostname }}.{{ domain }}'
+
+# template for getting certs from certbot for {{ ansible_hostname }}.im0n.tech

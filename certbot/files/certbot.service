@@ -1,0 +1,6 @@
+[Unit]
+Description=Lets Encrypt Renewal
+
+[Service]
+Type=oneshot
+ExecStart=/root/certbot/get-cert.sh

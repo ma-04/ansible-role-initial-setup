@@ -1,0 +1,11 @@
+[sshd service]
+enabled = true
+port = {{ ssh_port }}
+# ssh port changed to {{ ssh_port }}
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 5
+findtime = 300
+bantime = 600
+ignoreip = 127.0.0.1
+

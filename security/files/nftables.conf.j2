@@ -1,0 +1,50 @@
+#!/usr/sbin/nft -f
+
+flush ruleset
+
+define pub_iface = "eth0"
+define ssh_port = {{ ssh_port}}
+define wg_port = {{ wireguard_port | default(51820) }}
+define wg_iface = "wg-server"
+define extra_ports = "{{ extra_ports | default('80, 443') }}"
+
+table inet filter {
+  chain input {
+    type filter hook input priority 0;
+    policy drop;
+    ct state vmap { established : accept, related : accept, invalid : drop }
+    ct state invalid counter drop comment "early drop of invalid packets"
+    iifname "lo" accept comment "accept loopback"
+    iif != lo ip daddr 127.0.0.1/8 counter drop comment "drop connections to loopback not coming from loopback"
+    iif != lo ip6 daddr ::1/128 counter drop comment "drop connections to loopback not coming from loopback"
+    meta nfproto ipv4 icmp type { echo-request } counter accept comment "accept ping"
+    meta nfproto ipv6 icmpv6 type echo-request counter accept comment "accept ping"
+    meta nfproto ipv6 icmpv6 type { nd-neighbor-advert, nd-neighbor-solicit, nd-router-advert} ip6 hoplimit 3 accept  comment "accept neighbor discovery"
+    meta nfproto ipv6 icmpv6 type { nd-neighbor-advert, nd-neighbor-solicit, nd-router-advert} ip6 hoplimit 255 counter accept comment "accept neighbor discovery"
+    # accept all DHCPv6 packets received at a link-local address
+    ip6 daddr fe80::/64 udp dport dhcpv6-client accept comment "accept DHCPv6"
+
+    tcp dport { $ssh_port, $extra_ports } accept comment "accept http, https, some extra and ssh"
+    udp dport $wg_port accept comment "accept wireguard-server"
+    
+    tcp dport 0-65535 reject
+    udp dport 0-65535 counter drop
+    counter drop comment "drop everything else"
+  }
+
+  chain forward {
+    type filter hook forward priority 0;
+    policy accept;
+  }
+
+  chain output {
+    type filter hook output priority 0;
+    policy accept;
+  }
+}
+table inet nat {
+    chain postrouting {
+        type nat hook postrouting priority 100; policy accept;
+        iifname $wg_iface oifname $pub_iface masquerade
+    }
+}

@@ -1,0 +1,6 @@
+- include_tasks: sshd.yml
+- include_tasks: nftables.yml
+    when: nftables_enabled == true and ufw_enaled == false
+- include_tasks: fail2ban.yml
+- include_tasks: ufw.yml
+    when: ufw_enaled == true

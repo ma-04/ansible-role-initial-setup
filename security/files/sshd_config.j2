@@ -1,0 +1,20 @@
+Include /etc/ssh/sshd_config.d/*.conf
+Port {{ ssh_port | default('22') }}
+PermitRootLogin prohibit-password
+PasswordAuthentication {{ ssh_password_auth | default('no') }}
+KbdInteractiveAuthentication no
+UsePAM yes
+X11Forwarding yes
+PrintMotd no
+PrintLastLog yes
+TCPKeepAlive yes
+ClientAliveInterval 30
+AcceptEnv LANG LC_*
+Subsystem       sftp    /usr/lib/openssh/sftp-server
+
+# Example of overriding settings on a per-user basis
+#Match User anoncvs
+#       X11Forwarding no
+#       AllowTcpForwarding no
+#       PermitTTY no
+#       ForceCommand cvs server
