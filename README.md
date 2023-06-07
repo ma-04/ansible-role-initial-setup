@@ -1,7 +1,8 @@
 ### Required Files ###
 
 ## All ##
-```vars/main.yml # rename example.main.yml to main.yml```
+```vars/main.yml```
+# rename example.main.yml to main.yml
 
 ## Wireguard ##
 ```wireguard/files/{{ inventory_hostname }}.conf ```
@@ -9,3 +10,4 @@ For wireguard server config file, wireguard/files folder doesnt exist and needs 
 
 ## certbot ##
 ```certbot/certbot/credentials.ini```
+For certbot dns validation
