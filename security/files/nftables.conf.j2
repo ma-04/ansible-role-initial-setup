@@ -6,7 +6,7 @@ define pub_iface = "eth0"
 define ssh_port = {{ ssh_port}}
 define wg_port = {{ wireguard_port | default(51820) }}
 define wg_iface = "wg-server"
-define extra_ports = "{{ extra_ports | default('80, 443') }}"
+define extra_ports = {{ extra_ports | default('80, 443') }}
 
 table inet filter {
   chain input {
