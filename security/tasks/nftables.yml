@@ -10,8 +10,6 @@
   ansible.builtin.apt:
     name:
       - nftables
-      - netfilter-persistent 
-      - iptables-persistent
     state: present
     autoclean: true
     clean: true
