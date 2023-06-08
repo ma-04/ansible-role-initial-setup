@@ -34,6 +34,11 @@
     state: present
   become: true
 
+- name: update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true
+
 - name: install docker
   ansible.builtin.apt:
     name:
@@ -43,7 +48,8 @@
       - docker-buildx-plugin 
       - docker-compose-plugin
     state: present
-    update_cache: true
+    update_cache: yes
+    only_upgrade: true
   become: true
 
 - name: copy docker daemon config
@@ -55,7 +61,7 @@
     group: root
   become: true
 
-- name: ensure that docker is start
+- name: ensure that docker is started and enabled
   ansible.builtin.service:
     name: docker
     state: started
