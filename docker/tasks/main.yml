@@ -1,4 +1,11 @@
-- include_tasks: docker-compose.yml
+#- include_tasks: docker-compose.yml
+
+- name: Ensure old versions of Docker are not installed.
+  package:
+    name:
+      - docker
+      - docker-engine
+    state: absent
 
 - name: install required packages
   ansible.builtin.apt:
@@ -13,6 +20,7 @@
       - python3-setuptools
     state: present
     update_cache: true
+    install_recommends: true
   become: true
   
 - name: add docker apt key
@@ -39,18 +47,16 @@
     update_cache: yes
   become: true
 
-- name: install docker
+- name: install docker and its dependencies
+  become: true
   ansible.builtin.apt:
-    name:
+    pkg:
       - docker-ce
       - docker-ce-cli
       - containerd.io
-      - docker-buildx-plugin 
+      - docker-buildx-plugin
       - docker-compose-plugin
     state: present
-    update_cache: yes
-    only_upgrade: true
-  become: true
 
 - name: copy docker daemon config
   ansible.builtin.template:
@@ -61,12 +67,18 @@
     group: root
   become: true
 
+- name: start and enable containerd daemon
+  become: true
+  ansible.builtin.service:
+    name: containerd
+    state: started
+    enabled: true
+
 - name: ensure that docker is started and enabled
   ansible.builtin.service:
     name: docker
     state: started
     enabled: true
-    masked: false
   become: true
 
 - name: add user to docker group
