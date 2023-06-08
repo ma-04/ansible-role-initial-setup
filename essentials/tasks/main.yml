@@ -1,3 +1,9 @@
+- name: upgrade all packages
+  ansible.builtin.apt:
+    upgrade: true
+    update_cache: yes
+  become: true
+
 - include_tasks: bash.yml
 - include_tasks: zsh.yml
 - include_tasks: packages.yml
