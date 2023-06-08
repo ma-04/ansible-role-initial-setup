@@ -52,12 +52,6 @@
     only_upgrade: true
   become: true
 
-- name: unmask docker service
-  ansible.builtin.systemd:
-    name: docker.service
-    state: unmasked
-  become: true
-
 - name: copy docker daemon config
   ansible.builtin.template:
     src: files/daemon.json.j2
@@ -72,6 +66,7 @@
     name: docker
     state: started
     enabled: true
+    masked: false
   become: true
 
 - name: add user to docker group
