@@ -1,11 +1,32 @@
 - include_tasks: sysctl.yml
 
+- name: upgrade all packages
+  ansible.builtin.apt:
+    upgrade: true
+    update_cache: yes
+  become: true
+  
 - name: install wireguard
   ansible.builtin.apt:
-    name: wireguard
+    name:
+      - wireguard
+      - wireguard-tools
+      - resolvconf
     install_recommends: yes
     state: present
     update_cache: yes
+  become: true
+
+- name: ensure wireguard kernel module is loaded
+  ansible.builtin.modprobe:
+    name: wireguard
+    state: present
+  become: true
+
+- name: stop wireguard service if running
+  ansible.builtin.systemd:
+    name: wg-quick@wg-server.service
+    state: stopped
   become: true
 
 - name: copy wireguard config
