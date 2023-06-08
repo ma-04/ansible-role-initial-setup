@@ -22,25 +22,9 @@
     lock_timeout: 60
     update_cache: true
 
-- name: ensure plocate-updated.timer is started
-  become: true
-  ansible.builtin.systemd:
-    name: plocate-updatedb.timer
-    state: started
-    enabled: yes
-
 - name: symlink vim
   become: true
   ansible.builtin.file:
     src: /usr/bin/vim
     dest: /usr/bin/vi
     state: link
-
-- name: scripts directory
-  become: true
-  ansible.builtin.file:
-    path: /root/scripts
-    state: directory
-    owner: root
-    group: root
-    mode: '755'

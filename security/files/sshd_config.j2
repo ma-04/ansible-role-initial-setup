@@ -1,7 +1,7 @@
 Include /etc/ssh/sshd_config.d/*.conf
 Port {{ ssh_port | default('22') }}
 PermitRootLogin prohibit-password
-PasswordAuthentication {{ ssh_password_auth | default('no') }}
+PasswordAuthentication {{ ssh_password_auth | default("no") }}
 KbdInteractiveAuthentication no
 UsePAM yes
 X11Forwarding yes

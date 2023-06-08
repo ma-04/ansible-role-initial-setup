@@ -23,11 +23,10 @@
     state: present
   become: true
 
-- name: stop wireguard service if running
-  ansible.builtin.systemd:
-    name: wg-quick@wg-server.service
-    state: stopped
+- name: ensure wireguard config is stopped
+  ansible.builtin.command: wg-quick down wg-server
   become: true
+  ignore_errors: true
 
 - name: copy wireguard config
   ansible.builtin.copy:
@@ -39,9 +38,15 @@
   become: true
   notify: restart wg-server
 
+# - name: ensure wireguard config is loaded
+#   ansible.builtin.command: wg-quick up wg-server
+#   become: true
+#   args:
+#     creates: /etc/wireguard/wg-server.conf
+
 - name: ensure wg-quick@wg-server.service is started and enabled at boot
-  ansible.builtin.systemd:
+  ansible.builtin.service:
     name: wg-quick@wg-server.service
-    state: started
+    state: restarted
     enabled: yes
   become: true
