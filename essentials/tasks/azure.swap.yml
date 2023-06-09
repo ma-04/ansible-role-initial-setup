@@ -1,7 +1,3 @@
-- name: set swapfile variable
-  set_fact:
-    swapfile: /swapfile
-  
 - name: check if the host contains .az for azure
   become: true
   ansible.builtin.copy:
@@ -15,52 +11,9 @@
 - name: Hostname contains .az
   debug:
     msg: Contains .az
-  when: "'.az' in inventory_hostname" 
+  when: "'.az' in inventory_hostname"
 
-- name: check if swap file exist in /swapfile
+- name: run azure swap script
   become: true
-  stat: 
-    path: "/swapfile"
-  register: swapfile
-  when: "'.az' not in inventory_hostname"
-
-- name: Swapfile exist
-  debug:
-    msg: "SwapFile exist"
-  when: "swapfile.stat.exists"
-  when: "'.az' not in inventory_hostname"
-
-- name: create swapfile
-  when: (not swapfile.stat.exists) and ('.az' not in inventory_hostname)
-  become: true
-  ansible.builtin.command: "fallocate -l 2G /swapfile"
-    
-- name: set swapfile permission
-  when: (not swapfile.stat.exists) and ('.az' not in inventory_hostname)
-  become: true
-  ansible.builtin.file:
-    path: /swapfile
-    mode: '600'
-
-- name: format swap file
-  become: true
-  when: (not swapfile.stat.exists) and ('.az' not in inventory_hostname)
-  ansible.builtin.command: "mkswap /swapfile"
-
-- name: add to fstab
-  when: (not swapfile.stat.exists) and ('.az' not in inventory_hostname)
-  become: true
-  ansible.builtin.lineinfile:
-    path: /etc/fstab
-    line: "/swapfile swap swap defaults 0 0"
-
-- name: turn on swap
-  become: true
-  ansible.builtin.command: "swapon -a"
-  when: "'.az' not in inventory_hostname" 
-
-# - name: set swapiness
-#   become: true
-#   ansible.posix.sysctl:
-#     name: vm.swapiness
-#     value: "1"
+  ansible.builtin.command: "/var/lib/cloud/scripts/per-boot/swap.sh"
+  when: "'.az' in inventory_hostname"
