@@ -1,11 +1,18 @@
-- name: uninstall iptables and ufw to prevent conflicts
-  ansible.builtin.apt:
-    name:
-      - iptables
-      - ufw
-    state: absent
+- name: disable iptables
+  ansible.builtin.service:
+    name: iptables
+    state: stopped
+    enabled: false
   become: true
+  ignore_errors: true
 
+- name: disable ufw
+  ansible.builtin.service:
+    name: ufw
+    state: stopped
+    enabled: false
+  become: true 
+  ignore_errors: true
 - name: ensure nftables is installed
   ansible.builtin.apt:
     name:

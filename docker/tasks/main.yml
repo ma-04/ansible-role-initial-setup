@@ -51,6 +51,7 @@
   become: true
   ansible.builtin.apt:
     pkg:
+      - iptables
       - docker-ce
       - docker-ce-cli
       - containerd.io
