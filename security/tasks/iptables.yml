@@ -13,3 +13,8 @@
   become: true
 
 - name: starting iptables
+  ansible.builtin.service:
+    name: iptables
+    state: started
+    enabled: true
+  become: true

@@ -33,4 +33,6 @@
   ansible.builtin.shell: ufw --force enable
   become: true
   ignore_errors: false
-  notify: restart ufw
+  notify:
+    - restart ufw
+    - restart docker

@@ -1,4 +1,4 @@
-#- include_tasks: docker-compose.yml
+- include_tasks: docker-compose.yml
 
 - name: Ensure old versions of Docker are not installed.
   package:

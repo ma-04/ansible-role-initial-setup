@@ -34,7 +34,9 @@
     group: root
     mode: '0755'
   become: true
-  notify: restart nftables
+  notify:
+    - restart nftables
+    - restart docker
 
 - name: starting nftables
   ansible.builtin.service:

@@ -24,3 +24,5 @@ ufw_enaled: false # set to false if you don't want to use ufw, default is false
 # only one of them can be true, if both are true, ufw will be used
 # if both are false, nothing will be used
 # ufw only includes basic rules for ssh, wireguard, http, https, and extra_ports
+
+## MariaDB variables ##

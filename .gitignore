@@ -4,3 +4,4 @@ hosts
 notes.txt
 certbot/certbot/credentials.ini
 vars/main.yml
+test
