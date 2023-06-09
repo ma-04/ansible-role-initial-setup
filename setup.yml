@@ -2,13 +2,14 @@
     - learning
     - infra
   roles:
-    - hostname
-    - essentials
-    - security
-    - certbot
-    - wireguard
-    - docker
     #- test
+    #- hostname
+    #- essentials
+    #- security
+    #- certbot
+    #- wireguard
+    #- docker
+    - mariadb
   #become: yes
   become_method: sudo
   gather_facts: yes
