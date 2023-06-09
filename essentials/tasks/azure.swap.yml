@@ -5,7 +5,7 @@
 - name: check if the host contains .az for azure
   become: true
   ansible.builtin.copy:
-    src: files/swap.sh
+    src: files/azure.swap.sh
     dest: /var/lib/cloud/scripts/per-boot/swap.sh
     owner: root
     group: root
@@ -22,11 +22,13 @@
   stat: 
     path: "/swapfile"
   register: swapfile
+  when: "'.az' not in inventory_hostname"
 
 - name: Swapfile exist
   debug:
     msg: "SwapFile exist"
   when: "swapfile.stat.exists"
+  when: "'.az' not in inventory_hostname"
 
 - name: create swapfile
   when: (not swapfile.stat.exists) and ('.az' not in inventory_hostname)

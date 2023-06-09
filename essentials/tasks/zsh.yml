@@ -8,14 +8,18 @@
     update_cache: yes
   become: true
 
-- name: install oh-my-zsh
-  ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-  become: true
-  ignore_errors: true
+- name: install oh-my-zsh on user
+  ansible.builtin.git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: /home/{{ ansible_user_id }}/.oh-my-zsh
+    update: true
 
-- name: install oh-my-zsh non-root
-  ansible.builtin.shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-  ignore_errors: true
+- name: install oh-my-zsh on root
+  ansible.builtin.git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: /root/.oh-my-zsh
+    update: true
+  become: true
 
 - name: copy zsh custom config
   ansible.builtin.copy:
