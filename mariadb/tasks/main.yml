@@ -1,0 +1,13 @@
+- name: install mariadb
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - mariadb-server
+    - mariadb-client
+    - python3-pymysql
+  become: true
+  become_method: sudo
+
+- name: start mariadb
+  ansible.builtin.shell: "mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql"

@@ -1,12 +1,14 @@
 - hosts:
     - learning
+    - infra
   roles:
     - hostname
     - essentials
     - security
-    #- certbot
-    #- wireguard
-    #- docker
+    - certbot
+    - wireguard
+    - docker
+    #- test
   #become: yes
   become_method: sudo
   gather_facts: yes
