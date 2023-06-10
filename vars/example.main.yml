@@ -7,7 +7,7 @@
 
 domain: ""
 the_user: "{{ ansible_user_id }}"
-the_user_home: "/home/{{ the_user }}"
+#the_user_home: "/home/{{ the_user }}"
 ipinfoAuth: "" # https://ipinfo.io/account/token
 
 # security and wireguard roles
@@ -17,7 +17,7 @@ ssh_password_auth: yes # defaults to NO
 wireguard_port: 51820 # change this to your desired port if u wish to allow wireguard connections from outside
 wg_iface: wg-server # change this to your desired wireguard interface name
 extra_ports: "80, 443, 9002, 9003" # defaults to 80,443
-# TCP ports to be allowed in ufw and nftables      
+# TCP ports to be allowed in ufw and nftables
 
 nftables_enabled: false # (Suggested) set to false if you don't want to use nftables, default is false
 ufw_enaled: false # set to false if you don't want to use ufw, default is false

@@ -38,15 +38,23 @@
   become: true
   notify: restart wg-server
 
-# - name: ensure wireguard config is loaded
-#   ansible.builtin.command: wg-quick up wg-server
-#   become: true
-#   args:
-#     creates: /etc/wireguard/wg-server.conf
+- name: ensure wireguard config is loaded
+  ansible.builtin.command: wg-quick up wg-server
+  become: true
 
 - name: ensure wg-quick@wg-server.service is started and enabled at boot
   ansible.builtin.service:
     name: wg-quick@wg-server.service
-    state: restarted
+    state: started
     enabled: yes
   become: true
+
+- name: get wireguard ip for host from wg-server.conf file
+  ansible.builtin.shell: (cat /etc/wireguard/wg-server.conf | grep Address | awk '{print $3}' | awk -F/ '{print $1}')
+  register: wireguard_ip
+  become: true
+## use {{ wireguard_ip.stdout }} to get a ip range
+
+- name: wireguard ip
+  debug:
+    msg: "wireguard_ip {{ wireguard_ip.stdout }}"
