@@ -2,7 +2,7 @@
 
 flush ruleset
 
-define pub_iface = "eth0"
+define pub_iface = "{{ ansible_default_ipv4.interface }}"
 define ssh_port = {{ ssh_port}}
 define wg_port = {{ wireguard_port | default(51820) }}
 define wg_iface = "wg-server"

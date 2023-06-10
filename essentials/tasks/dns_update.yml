@@ -1,6 +1,6 @@
 - name: drop-in directory
   ansible.builtin.file:
-    path: /etc/systemd/network/05-eth0.network.d/
+    path: /etc/systemd/network/05-{{ ansible_default_ipv4.interface }}.network.d/
     state: directory
     owner: root
     group: root
@@ -8,9 +8,9 @@
   become: true
 
 - name: copy custom config
-  ansible.builtin.copy:
-    src: files/01-custom.conf
-    dest: /etc/systemd/network/05-eth0.network.d/01-custom.conf
+  ansible.builtin.template:
+    src: files/01-custom.conf.j2
+    dest: /etc/systemd/network/05-{{ ansible_default_ipv4.interface }}.network.d/01-custom.conf
     owner: root
     group: root
     mode: '0644'
