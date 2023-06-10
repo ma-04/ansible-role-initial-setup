@@ -1,6 +1,7 @@
-## What can this do?##
+### What can this do? ###
 
-This playbook will do: (Everything here is customisable)\
+##This playbook will do: (Everything here is customisable)\
+**
     * add hostname (from ansible hostname) to /etc/hosts \
     * Install some packages\
     * Install zsh and setup some usefull alias\
@@ -11,7 +12,7 @@ This playbook will do: (Everything here is customisable)\
     * setup iptables/nftables firewall\
     * Setup fail2ban\
     * Setup wireguard (private keys needs to be genarated beforehand)\
-    * Install Docker and docker-compose and add user to docker group\
+    * Install Docker and docker-compose and add user to docker group\**
 
 ### Required Files ###
 
