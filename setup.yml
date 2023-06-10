@@ -1,15 +1,16 @@
 - hosts:
-    - learning
-    - infra
+    - gcp
+    #- spot
+    #- infra
   roles:
     #- test
-    #- hostname
-    #- essentials
-    #- security
-    #- certbot
-    #- wireguard
-    #- docker
-    - mariadb
+    - hostname
+    - essentials
+    - certbot
+    - security
+    - wireguard
+    - docker
+    #- mariadb
   #become: yes
   become_method: sudo
   gather_facts: yes
