@@ -26,3 +26,13 @@ ufw_enaled: false # set to false if you don't want to use ufw, default is false
 # ufw only includes basic rules for ssh, wireguard, http, https, and extra_ports
 
 ## MariaDB variables ##
+
+
+# prometheus node-exporter variables
+prometheus_basic_auth_password: "$2a$10$tRfFmivM4pyrO6xWxVkWGehiJMDB5gZkJPeG8XUaEcGtvBRoxnW46" # change this ( default is "password1235dsf42a73" )
+# generate a password with bcrypt: openssl passwd -1 -salt $(openssl rand -base64 6) yourpassword
+# prometheus tls variables
+prometheus_tls_server_config_cert_file: "/etc/node_exporter/node_exporter.crt"
+prometheus_tls_server_config_key_file: "/etc/node_exporter/node_exporter.key"
+# genarate a tls certificate with openssl and place them in prometheus/files/: 
+#  openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout node_exporter.key -out node_exporter.crt -subj "/C=CH/ST=SG/L=Basel/O=dbi/CN=localhost" -addext "subjectAltName = DNS:localhost" 
