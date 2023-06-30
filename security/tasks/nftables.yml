@@ -28,7 +28,7 @@
 
 - name: nftables rules
   ansible.builtin.template:
-    src: files/nftables.conf.j2
+    src: files/nftables.conf
     dest: /etc/nftables.conf
     owner: root
     group: root
