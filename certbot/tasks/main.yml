@@ -3,18 +3,11 @@
   ansible.builtin.apt:
     name:
       - certbot
-      - python3-certbot-nginx
       - python3-certbot-dns-cloudflare
     state: present
     update_cache: yes
+    install_recommends: no
 
-- name: disable nginx
-  ansible.builtin.service:
-    name: nginx
-    state: stopped
-    enabled: no
-  become: true
-  
 - name: create certbot directories
   ansible.builtin.copy:
     src: certbot
