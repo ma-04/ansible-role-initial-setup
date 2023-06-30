@@ -12,12 +12,6 @@
   register: swapfile
   when: "'.az' not in inventory_hostname" 
 
-- name: check if swap file exist in /swapfile
-  become: true
-  stat: 
-    path: "/swapfile"
-  register: swapfile
-
 - name: check if swap is on
   become: true
   ansible.builtin.command: "swapon -s | grep -v Filename"
@@ -28,12 +22,12 @@
 ## when its off, it will return nothing
 
 - name: create swapfile
-  when: (not swapfile.stat.exists) and ('.az' not in inventory_hostname) and (swap.stdout == '') 
+  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists)
   become: true
   ansible.builtin.command: "fallocate -l 2G /swapfile"
     
 - name: set swapfile permission
-  when: (not swapfile.stat.exists) and ('.az' not in inventory_hostname) and (swap.stdout == '') 
+  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists)
   become: true
   ansible.builtin.file:
     path: /swapfile
@@ -41,11 +35,11 @@
 
 - name: format swap file
   become: true
-  when: (not swapfile.stat.exists) and ('.az' not in inventory_hostname) and (swap.stdout == '') 
+  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists)
   ansible.builtin.command: "mkswap /swapfile"
 
 - name: add to fstab
-  when: (not swapfile.stat.exists) and ('.az' not in inventory_hostname) and (swap.stdout == '') 
+  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists)
   become: true
   ansible.builtin.lineinfile:
     path: /etc/fstab

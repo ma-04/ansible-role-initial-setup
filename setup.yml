@@ -1,16 +1,15 @@
 - hosts:
-    - gcp
-    #- spot
-    #- infra
+    - infra
   roles:
     #- test
-    - hostname
-    - essentials
-    - certbot
-    - security
-    - wireguard
-    - docker
+     #- hostname
+     #- essentials
+     #- certbot
+     - security
+     #- wireguard
+     #- docker
     #- mariadb
+     - prometheus
   #become: yes
   become_method: sudo
   gather_facts: yes

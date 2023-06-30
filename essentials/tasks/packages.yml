@@ -14,6 +14,7 @@
       - p7zip-full
       - plocate
       - net-tools
+      - apache2-utils
     state: present
     autoclean: true
     clean: true
