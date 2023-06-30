@@ -13,6 +13,7 @@
 - Setup fail2ban
 - Setup wireguard (private keys needs to be genarated beforehand)
 - Install Docker and docker-compose and add user to docker group
+- Setup prometheus node exporter service
 
 ### Required Files ###
 
