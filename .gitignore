@@ -6,3 +6,5 @@ certbot/certbot/credentials.ini
 vars/main.yml
 test
 test.md
+prometheus/files/*.crt
+prometheus/files/*.key

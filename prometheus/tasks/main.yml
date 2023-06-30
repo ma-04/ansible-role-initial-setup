@@ -1,0 +1,68 @@
+# setting up prometheus node exporter
+- name: Install node exporter
+  package:
+    name: prometheus-node-exporter
+    state: present
+    update_cache: yes
+  become: yes
+  become_method: sudo
+  become_user: root
+  tags: node_exporter
+
+- name: Copy node exporter config
+  template:
+    src: files/node_exporter.j2
+    dest: /etc/default/prometheus-node-exporter
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  become_method: sudo
+  become_user: root
+  tags: node_exporter
+
+- name: create node exporter web config directory
+  file:
+    path: /etc/node_exporter
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
+  become_method: sudo
+  become_user: root
+  tags: node_exporter
+
+- name: copy certifcate for node exporter web
+  copy:
+    src: files/node_exporter.key
+    dest: /etc/node_exporter/node_exporter.key
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  become_method: sudo
+  become_user: root
+  tags: node_exporter
+
+- name: copy certifcate for node exporter web
+  copy:
+    src: files/node_exporter.crt
+    dest: /etc/node_exporter/node_exporter.crt
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  become_method: sudo
+  become_user: root
+  tags: node_exporter
+
+- name: Copy node exporter web config
+  template:
+    src: files/node_exporter_web.config.yml.j2
+    dest: /etc/node_exporter/config.yml
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify: restart node exporter
