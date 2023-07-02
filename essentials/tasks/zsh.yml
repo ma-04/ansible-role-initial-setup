@@ -8,44 +8,36 @@
     update_cache: yes
   become: true
 
-- name: install oh-my-zsh on user
+- name: install oh-my-zsh
   ansible.builtin.git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
-    dest: /home/{{ ansible_user_id }}/.oh-my-zsh
-    update: true
-
-- name: install oh-my-zsh on root
-  ansible.builtin.git:
-    repo: https://github.com/ohmyzsh/ohmyzsh.git
-    dest: /root/.oh-my-zsh
+    dest: {{ item.home }}/.oh-my-zsh
     update: true
   become: true
+  become_user: {{ item.user }}
+  loop:
+    - {user: '{{ansible_user_id}}', home: '/home/{{ ansible_user_id }}'}
+    - {user: 'root', home: '/root'}
 
 - name: copy zsh custom config
   ansible.builtin.copy:
     src: files/zshrc
-    dest: /home/{{ ansible_user_id }}/.zshrc
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
-    mode: 0644
-
-- name: copy zsh custom config to root
-  ansible.builtin.copy:
-    src: files/zshrc
-    dest: /root/.zshrc
-    owner: root
-    group: root
+    dest: {{ item.home }}/.zshrc
+    owner: "{{ item.user }}"
+    group: "{{ item.user }}"
     mode: 0644
   become: true
+  become_user: "{{ item.user }}"
+  loop:
+    - {user: '{{ansible_user_id}}', home: '/home/{{ ansible_user_id }}'}
+    - {user: 'root', home: '/root'}
 
 - name: change users shell to zsh
   ansible.builtin.user:
     name: "{{ ansible_user_id }}"
     shell: /usr/bin/zsh
   become: true
-  
-- name: change root shell to zsh
-  ansible.builtin.user:
-    name: root
-    shell: /usr/bin/zsh
-  become: true
+  become_user: {{ item }}
+  loop:
+    - '{{ansible_user_id}}'
+    - 'root'
