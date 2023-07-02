@@ -7,18 +7,46 @@
   become: true
   become_method: sudo
 
+- name: Add IP address of all hosts to all hosts as text block
+  blockinfile:
+    dest: /etc/hosts
+    block: |
+      # managed by ansible
+      {% for host in groups['all'] %}
+      {{ hostvars[host].wireguard_ip.stdout }} {{ hostvars[host].inventory_hostname }} {{ hostvars[host].inventory_hostname_short }}
+      {% endfor %}
+      # end of managed by ansible
+    state: present
+    backup: true
+  become: true
+  become_method: sudo
+
+- name: managed by ansible line added to /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    line: "# managed by ansible"
+    state: present
+  become: true
+  become_method: sudo
+
+- name: add end of managed by ansible line to /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    line: "# end of managed by ansible"
+    state: present
+  become: true
+  become_method: sudo
 
 - name: Add IP address of all hosts to all hosts
   lineinfile:
     dest: /etc/hosts
+    lineafter: "# managed by ansible"
+    insertbefore: "# end of managed by ansible"
     line: "{{ hostvars[item].wireguard_ip.stdout }} {{ hostvars[item].inventory_hostname }} {{ hostvars[item].inventory_hostname_short }}"
     state: present
-    create: true
     backup: true
   become: true
   with_items: "{{ groups['all'] }}"
-
-
 
 
 # note that if u have any extra hosts in your inventory file that you are not using, this will throw an error
