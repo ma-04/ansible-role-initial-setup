@@ -11,16 +11,18 @@
   blockinfile:
     dest: /etc/hosts
     block: |
-      # managed by ansible
-      {% for host in groups['all'] %}
+      {% for item in groups['all'] %}
       {{ hostvars[item].wireguard_ip.stdout }} {{ hostvars[item].inventory_hostname }} {{ hostvars[item].inventory_hostname_short }}
       {% endfor %}
-      # end of managed by ansible
     state: present
     backup: true
   become: true
   become_method: sudo
   with_items: "{{ groups['all'] }}"
+
+# note that if u have any extra hosts in your inventory file that you are not using, this will throw an error
+# keep your inventory file clean
+
 
 # - name: Add IP address of all hosts to all hosts
 #   lineinfile:
@@ -33,6 +35,3 @@
 #   become: true
 #   with_items: "{{ groups['all'] }}"
 
-
-# note that if u have any extra hosts in your inventory file that you are not using, this will throw an error
-# keep your inventory file clean

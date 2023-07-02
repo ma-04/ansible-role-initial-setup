@@ -1,5 +1,3 @@
-- include_tasks: internal_hostname_resolve.yml
-  when: (internal_hostname_resolve == true) and (domain != "")
 - include_tasks: sysctl.yml
 
 - name: upgrade all packages
@@ -57,3 +55,5 @@
   debug:
     msg: "wireguard_ip {{ wireguard_ip.stdout }}"
     
+- include_tasks: internal_hostname_resolve.yml
+  when: (internal_hostname_resolve == true) and (domain != "")

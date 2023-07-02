@@ -10,12 +10,16 @@ the_user: "{{ ansible_user_id }}"
 #the_user_home: "/home/{{ the_user }}"
 ipinfoAuth: "" # https://ipinfo.io/account/token
 
-# security and wireguard roles
-ssh_port: 22 # change this to your desired port
-# change this to no if you want to disable password authentication
-ssh_password_auth: yes # defaults to NO
+## wireguard variables
 wireguard_port: 51820 # change this to your desired port if u wish to allow wireguard connections from outside
 wg_iface: wg-server # change this to your desired wireguard interface name
+internal_hostname_resolve: true # depends on domain variable, if domain is empty, this will be skipped
+# change this to false if you don't want to use internal hostname resolving with wireguard
+
+# security variables
+ssh_port: 22 # change this to your desired port
+# change this to no if you want to disable password authentication
+ssh_password_auth: "yes" # defaults to "no", change this to yes if you want to enable password authentication
 extra_ports: "80, 443, 9002, 9003" # defaults to 80,443
 # TCP ports to be allowed in ufw and nftables
 
@@ -29,6 +33,7 @@ ufw_enaled: false # set to false if you don't want to use ufw, default is false
 
 
 # prometheus node-exporter variables
+enable_node_exporter: true # set to false if you don't want to install node_exporter
 prometheus_basic_auth_password: "$2a$10$tRfFmivM4pyrO6xWxVkWGehiJMDB5gZkJPeG8XUaEcGtvBRoxnW46" # change this ( default is "password1235dsf42a73" )
 # generate a password with bcrypt: openssl passwd -1 -salt $(openssl rand -base64 6) yourpassword
 # prometheus tls variables

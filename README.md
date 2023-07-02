@@ -12,6 +12,7 @@
 - setup iptables/nftables firewall
 - Setup fail2ban
 - Setup wireguard (private keys needs to be genarated beforehand)
+    - Setup internal dns resolution for all hosts in the wireguard network (Usefull for docker swarm, kubernetes, etc)
 - Install Docker and docker-compose and add user to docker group
 - Setup prometheus node exporter service
 
@@ -33,3 +34,14 @@ For wireguard server config file, wireguard/files folder doesnt exist and needs 
 ```certbot/certbot/credentials.ini```
 
 For certbot dns validation
+
+**Prometheus**
+
+```prometheus/files/node_exporter.crt```
+
+```prometheus/files/node_exporter.key```
+
+For prometheus node exporter ssl certificate
+To generate a self signed certificate, run the following command:
+
+```openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout node_exporter.key -out node_exporter.crt```

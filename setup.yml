@@ -1,14 +1,14 @@
 - hosts:
-    - infra
+    - all, !excluded_hosts
   roles:
-    #- test
-     #- hostname
-     #- essentials
-     #- certbot
+     #- test
+     - hostname
+     - essentials
+     - certbot
      - security
      #- wireguard
-     #- docker
-    #- mariadb
+     - docker
+     #- mariadb
      - prometheus
   #become: yes
   become_method: sudo
