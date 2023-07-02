@@ -1,2 +1,2 @@
 - include_tasks: node-exporter.yml
-  when: node_exporter == true
+  when: enable_node_exporter == true
