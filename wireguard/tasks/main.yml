@@ -1,6 +1,4 @@
-#- include_tasks: sysctl.yml
-- include_tasks: internal_hostname_resolve.yml
-  when: (internal_hostname_resolve == true) and (domain != "")
+- include_tasks: sysctl.yml
 
 - name: upgrade all packages
   ansible.builtin.apt:
@@ -56,3 +54,6 @@
 - name: wireguard ip
   debug:
     msg: "wireguard_ip {{ wireguard_ip.stdout }}"
+    
+- include_tasks: internal_hostname_resolve.yml
+  when: (internal_hostname_resolve == true) and (domain != "")
