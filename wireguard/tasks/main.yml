@@ -1,4 +1,6 @@
-- include_tasks: sysctl.yml
+#- include_tasks: sysctl.yml
+- include_tasks: internal_hostname_resolve.yml
+  when: (internal_hostname_resolve == true) and (domain != "")
 
 - name: upgrade all packages
   ansible.builtin.apt:

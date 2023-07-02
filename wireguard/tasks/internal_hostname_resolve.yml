@@ -1,0 +1,25 @@
+# this tasks uses each host's hostname and sets them up in /etc/hosts file on each host
+# This allowss hosts to communicate with each other internally using their hostnames
+
+- name: get wireguard ip for host from wg-server.conf file
+  ansible.builtin.shell: (cat /etc/wireguard/{{ wg_iface }}.conf | grep Address | awk '{print $3}' | awk -F/ '{print $1}')
+  register: wireguard_ip
+  become: true
+  become_method: sudo
+
+
+- name: Add IP address of all hosts to all hosts
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ hostvars[item].wireguard_ip.stdout }} {{ hostvars[item].inventory_hostname }} {{ hostvars[item].inventory_hostname_short }}"
+    state: present
+    create: true
+    backup: true
+  become: true
+  with_items: "{{ groups['all'] }}"
+
+
+
+
+# note that if u have any extra hosts in your inventory file that you are not using, this will throw an error
+# keep your inventory file clean
