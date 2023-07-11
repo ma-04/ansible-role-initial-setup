@@ -15,7 +15,7 @@
       {{ hostvars[item].wireguard_ip.stdout }} {{ hostvars[item].inventory_hostname }} {{ hostvars[item].inventory_hostname_short }}
       {% endfor %}
     state: present
-    backup: true
+    backup: false
   become: true
   become_method: sudo
   with_items: "{{ groups['all'] }}"
