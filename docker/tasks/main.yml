@@ -61,6 +61,7 @@
     state: present
 
 - name: copy docker daemon config
+  when: wg_docker_integrations == false
   ansible.builtin.template:
     src: files/daemon.json.j2
     dest: /etc/docker/daemon.json
@@ -69,19 +70,18 @@
     group: root
   become: true
 
+- include_tasks: wg_docker_integrations.yml
+  when: wg_docker_integrations == true
+
 - name: start and enable containerd daemon
   become: true
   ansible.builtin.service:
-    name: containerd
+    name: "{{ item }}"
     state: started
     enabled: true
-
-- name: ensure that docker is started and enabled
-  ansible.builtin.service:
-    name: docker
-    state: started
-    enabled: true
-  become: true
+  loop:
+    - docker
+    - containerd
 
 - name: add user to docker group
   ansible.builtin.user:
