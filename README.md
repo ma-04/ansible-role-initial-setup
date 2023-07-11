@@ -14,6 +14,7 @@
 - Setup wireguard (private keys needs to be genarated beforehand)
     - Setup internal dns resolution for all hosts in the wireguard network (Usefull for docker swarm, kubernetes, etc)
 - Install Docker and docker-compose and add user to docker group
+    - Setup default docker bind address to the wireguard interface
 - Setup prometheus node exporter service
 
 ### Required Files ###
