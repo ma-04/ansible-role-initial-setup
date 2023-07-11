@@ -15,6 +15,9 @@ wireguard_port: 51820 # change this to your desired port if u wish to allow wire
 wg_iface: wg-server # change this to your desired wireguard interface name
 internal_hostname_resolve: true # depends on domain variable, if domain is empty, this will be skipped
 # change this to false if you don't want to use internal hostname resolving with wireguard
+wg_docker_integrations: true # change this to false if you don't want to use wireguard with docker
+# This will set the default bind address for docker to the wireguard interface, so instead of the default
+# 0.0.0.0:80, it will be wg-server:80, this is useful if you want to use wireguard with docker
 
 # security variables
 ssh_port: 22 # change this to your desired port

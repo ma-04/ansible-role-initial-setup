@@ -11,33 +11,33 @@
 - name: install oh-my-zsh
   ansible.builtin.git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
-    dest: {{ item.home }}/.oh-my-zsh
+    dest: ~/.oh-my-zsh
     update: true
   become: true
-  become_user: {{ item.user }}
+  become_user: "{{ item }}"
   loop:
-    - {user: '{{ansible_user_id}}', home: '/home/{{ ansible_user_id }}'}
-    - {user: 'root', home: '/root'}
+    - root
+    - "{{ ansible_user_id }}"
 
 - name: copy zsh custom config
   ansible.builtin.copy:
     src: files/zshrc
-    dest: {{ item.home }}/.zshrc
-    owner: "{{ item.user }}"
-    group: "{{ item.user }}"
+    dest: ~/.zshrc
+    owner: "{{ item }}"
+    group: "{{ item }}"
     mode: 0644
   become: true
-  become_user: "{{ item.user }}"
+  become_user: "{{ item }}"
   loop:
-    - {user: '{{ansible_user_id}}', home: '/home/{{ ansible_user_id }}'}
-    - {user: 'root', home: '/root'}
+    - root
+    - "{{ ansible_user_id }}"
 
 - name: change users shell to zsh
   ansible.builtin.user:
     name: "{{ ansible_user_id }}"
     shell: /usr/bin/zsh
   become: true
-  become_user: {{ item }}
+  become_user: "{{ item }}"
   loop:
     - '{{ansible_user_id}}'
     - 'root'
