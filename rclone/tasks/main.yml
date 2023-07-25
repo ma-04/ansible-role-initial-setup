@@ -12,7 +12,7 @@
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: 0755
-    
+
 - name: copy rclone config file
   ansible.builtin.copy:
     src: files/rclone.conf
