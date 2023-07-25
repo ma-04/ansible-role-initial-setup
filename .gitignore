@@ -1,4 +1,5 @@
 venv/
+.vault_password
 wireguard/files/
 hosts
 notes.txt
@@ -8,3 +9,5 @@ test
 test.md
 prometheus/files/*.crt
 prometheus/files/*.key
+rclone/files/rclone.conf
+

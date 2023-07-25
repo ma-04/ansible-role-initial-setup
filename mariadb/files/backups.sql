@@ -6,4 +6,4 @@ create table if not exists list
     start_time  time                            null,
     end_time    time                            null,
     status      varchar(20)                     null
-)
+);

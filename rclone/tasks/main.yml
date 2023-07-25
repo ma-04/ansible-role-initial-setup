@@ -1,0 +1,22 @@
+- name: install rclone
+  ansible.builtin.apt:
+    name: rclone
+    state: present
+    install_recommends: yes
+  become: true
+
+- name: create rclone config directory
+  ansible.builtin.file:
+    path: /home/{{ ansible_user_id }}/.config/rclone/
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0755
+    
+- name: copy rclone config file
+  ansible.builtin.copy:
+    src: files/rclone.conf
+    dest: /home/{{ ansible_user_id }}/.config/rclone/rclone.conf
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0600

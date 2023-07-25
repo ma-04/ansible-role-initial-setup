@@ -1,0 +1,28 @@
+- name: install lxc packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    install_recommends: yes
+  become: true
+  loop:
+    - lxc
+    - lxc-templates
+    - lxc-dev
+    - lxcfs
+
+- name: default.conf
+  ansible.builtin.template:
+    src: files/default.conf
+    dest: /etc/lxc/default.conf
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: backups directory
+  ansible.builtin.file:
+    path: /home/{{ ansible_user_id }}/backup/lxc/
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0755

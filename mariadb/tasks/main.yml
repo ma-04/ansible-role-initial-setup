@@ -21,6 +21,14 @@
   become: true
   when: mariadb_initialized_true.stat.exists == false
 
+- name: ensure mariadb is running
+  ansible.builtin.service:
+    name: mariadb
+    state: started
+    enabled: true
+  become: true
+  when: mariadb_initialized_true.stat.exists == false
+
 - name: set root user password
   community.mysql.mysql_user:
     login_user: root
@@ -29,8 +37,9 @@
     password: "{{ mariadb_root_password }}"
     host_all: true
     state: present
+  become: true
   no_log: true
- when: mariadb_initialized_true.stat.exists == false
+  when: mariadb_initialized_true.stat.exists == false
 
 - name: removes anonymous user account
   community.mysql.mysql_user:
@@ -41,13 +50,13 @@
     state: absent
     login_unix_socket: "/run/mysqld/mysqld.sock"
   no_log: true
- when: mariadb_initialized_true.stat.exists == false
+  when: mariadb_initialized_true.stat.exists == false
 
 - name: setup databases
   include_tasks: databases.yml
 
 - name: setup users
-  included_tasks: users.yml
+  include_tasks: users.yml
 
 - name: backup script
   ansible.builtin.copy:
@@ -72,11 +81,11 @@
     path: /root/mariadb_initialized_true
     state: touch
   become: true
- when: mariadb_initialized_true.stat.exists == false
+  when: mariadb_initialized_true.stat.exists == false
   
 - name: set immutable attribute
   ansible.builtin.file:
     path: root/mariadb_initialized_true
     attributes: i
   become: true
- when: mariadb_initialized_true.stat.exists == false
+  when: mariadb_initialized_true.stat.exists == false

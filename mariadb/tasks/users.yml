@@ -1,3 +1,10 @@
+
+- name: get wireguard ip for host from wg-server.conf file
+  ansible.builtin.shell: (cat /etc/wireguard/{{ wg_iface }}.conf | grep Address | awk '{print $3}' | awk -F/ '{print $1}')
+  register: wireguard_ip
+  become: true
+  become_method: sudo
+
 - name: check for database user 'backup_script@localhost'
   community.mysql.mysql_user:
     login_user: root
@@ -8,15 +15,28 @@
     priv: 'backups.*:ALL'
     state: present
   no_log: true
-become: true
+  become: true
+
+- name: check for database user 'backup_scripts@{{ wireguard_ip.stdout }}' range
+  community.mysql.mysql_user:
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    name: backup_script
+    password: "{{ mariadb_backup_script_password }}"
+    host: 10.9.%.%
+    priv: 'backups.*:ALL'
+    state: present
+  no_log: true
+  become: true
 
 - name: check for database user 'backup_scripts@{{ wireguard_ip.stdout }}'
   community.mysql.mysql_user:
     login_user: root
-    login_password: {{ mariadb_root_password}}
+    login_password: "{{ mariadb_root_password }}"
     name: backup_script
     password: "{{ mariadb_backup_script_password }}"
-    host: {{ wireguard_ip.stdout }}
+    host: "{{ wireguard_ip.stdout }}"
     priv: 'backups.*:ALL'
     state: present
   no_log: true
+  become: true
