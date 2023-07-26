@@ -10,6 +10,11 @@ the_user: "{{ ansible_user_id }}"
 #the_user_home: "/home/{{ the_user }}"
 ipinfoAuth: "" # https://ipinfo.io/account/token
 
+# Rclone variables
+rclone_services: ["backup"] # change this to your desired rclone services
+# make sure the serives names are the same as the rclone remote config names
+# use rclone alias to specify a single directory in a r
+
 ## wireguard variables
 wireguard_port: 51820 # change this to your desired port if u wish to allow wireguard connections from outside
 wg_iface: wg-server # change this to your desired wireguard interface name

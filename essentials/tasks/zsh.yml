@@ -39,5 +39,5 @@
   become: true
   become_user: "{{ item }}"
   loop:
-    - '{{ansible_user_id}}'
+    - '{{ ansible_user_id }}'
     - 'root'
