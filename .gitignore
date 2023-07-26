@@ -5,9 +5,8 @@ hosts
 notes.txt
 certbot/certbot/credentials.ini
 vars/main.yml
-test
-test.md
+test.*
 prometheus/files/*.crt
 prometheus/files/*.key
 rclone/files/rclone.conf
-
+lxc/files/.env-lxc-backups

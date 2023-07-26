@@ -12,4 +12,4 @@ certbot certonly \
     --dns-cloudflare-propagation-seconds 30 \
     --domain '{{ ansible_hostname }}.{{ domain }}'
 
-# template for getting certs from certbot for {{ ansible_hostname }}.im0n.tech
+# template for getting certs from certbot for {{ ansible_hostname }}.{{ domain }}

@@ -26,3 +26,35 @@
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: 0755
+
+- name: backup script for lxc mails.{{ domain }}
+  ansible.builtin.template:
+    src: files/lxc-backup-mail.sh
+    dest: /root/scripts/lxc-backup-mails.{{ domain }}.sh
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: 0755
+  become: true
+
+- name: .env-lxc-backups
+  copy:
+    src: files/.env-lxc-backups
+    dest: /root/scripts
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: '0600'
+  become: true
+
+- name: add backup script for lxc mails.{{ domain }} to crontab
+  cron:
+    name: "backup lxc mails.{{ domain }}"
+    minute: "0"
+    hour: "0"
+    user: root
+    job: "/root/scripts/lxc-backup-mails.{{ domain }}.sh > /dev/null 2>&1"
+  become: true
+
+- name: ensure lxc mails.{{ domain }} is enabled
+  ansible.builtin.service:
+    name: lxc@mails.{{ domain }}
+    enabled: yes
