@@ -36,6 +36,9 @@ For wireguard server config file, wireguard/files folder doesnt exist and needs 
 
 For certbot dns validation
 
+**LXC**
+```lxc/files/.env-lac-backups```
+
 **Prometheus**
 
 ```prometheus/files/node_exporter.crt```
