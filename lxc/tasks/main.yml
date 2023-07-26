@@ -58,3 +58,4 @@
   ansible.builtin.service:
     name: lxc@mails.{{ domain }}
     enabled: yes
+  become: true
