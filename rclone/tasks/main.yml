@@ -85,6 +85,11 @@
     path: /etc/fuse.conf
   become: true
   when: rclone_fuse_allow_others == true
+
+- name: reload rclone systemd service
+  ansible.builtin.systemd:
+    daemon_reload: yes
+    scope: user
     
 - name: enable rclone systemd service
   systemd:

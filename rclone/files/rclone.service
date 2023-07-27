@@ -9,7 +9,7 @@ Type=notify
 #Set up environment
 Environment=REMOTE_NAME="%i"
 Environment=REMOTE_PATH="/"
-Environment=MOUNT_DIR="%h/mnt/%i"
+Environment=MOUNT_DIR="%h/%i"
 Environment=POST_MOUNT_SCRIPT=""
 Environment=RCLONE_CONF="%h/.config/rclone/rclone.conf"
 Environment=RCLONE_TEMP_DIR="/tmp/rclone/%u/%i"
@@ -51,8 +51,8 @@ ExecStartPre=/usr/bin/test -r "${RCLONE_CONF}"
 ExecStart=/usr/bin/rclone mount \
             --config="${RCLONE_CONF}" \
 #See additional items for access control below for information about the following 2 flags
-#            --allow-other \
-#            --default-permissions \
+            --allow-other \
+            --default-permissions \
             --rc="${RCLONE_RC_ON}" \
             --cache-tmp-upload-path="${RCLONE_TEMP_DIR}/upload" \
             --cache-chunk-path="${RCLONE_TEMP_DIR}/chunks" \

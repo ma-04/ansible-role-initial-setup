@@ -18,10 +18,6 @@ rclone_packages:
 rclone_man_pages:
   OWNER: root
   GROUP: root
-
-rclone_man_pages:
-  OWNER: root
-  GROUP: root
   PATH: '/usr/local/share/man/man1'
 
 rclone_config_owner:
