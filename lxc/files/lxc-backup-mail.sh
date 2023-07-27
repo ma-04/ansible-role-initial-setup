@@ -22,7 +22,7 @@ chmod 700 "${backup_dir}"
 
 systemctl stop lxc@"${lxc_name}".service && \
 tar -czvf /tmp/"$(date "+%Y-%m-%dT%H")".tar.gz "${lxc_directory}"/"${lxc_name}" && \
-mv tmp/"$(date "+%Y-%m-%dT%H")".tar.gz "${backup_dir}"/ && \
+mv /tmp/"$(date "+%Y-%m-%dT%H")".tar.gz "${backup_dir}"/ && \
 cp /var/lib/lxc/"${lxc_name}"/config "${backup_dir}"/"$(date "+%Y-%m-%dT%H:%M:%S")"-config && \
 systemctl start lxc@"${lxc_name}".service
 
