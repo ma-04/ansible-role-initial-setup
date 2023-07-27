@@ -5,15 +5,18 @@
 # the domain name of the server, can be left blank if you don't have one
 # hostname and essentials roles variables
 
+backup_dir: "/home/{{ ansible_user_id }}/mnt/backup"
+
 domain: ""
 the_user: "{{ ansible_user_id }}"
-#the_user_home: "/home/{{ the_user }}"
+the_user_home: "/home/{{ the_user }}"
 ipinfoAuth: "" # https://ipinfo.io/account/token
 
 # Rclone variables
 rclone_services: ["backup"] # change this to your desired rclone services
 # make sure the serives names are the same as the rclone remote config names
-# use rclone alias to specify a single directory in a r
+# use rclone alias to specify a single directory in a remote
+rclone_fuse_allow_others: true # set to false if you don't want to allow other users to access the rclone mount
 
 ## wireguard variables
 wireguard_port: 51820 # change this to your desired port if u wish to allow wireguard connections from outside

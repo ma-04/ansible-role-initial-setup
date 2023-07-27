@@ -78,6 +78,13 @@
   with_items:
     - "{{ rclone_services }}"
 
+
+- name: fuse allow others
+  ansible.builtin.lineinfile:
+    line: "user_allow_other"
+    path: /etc/fuse.conf
+  become: true
+  when: rclone_fuse_allow_others == true
     
 - name: enable rclone systemd service
   systemd:
