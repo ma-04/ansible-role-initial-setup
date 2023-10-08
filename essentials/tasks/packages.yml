@@ -10,9 +10,10 @@
       - iperf3
       - git
       - fdclone
+      - htop
       - build-essential
-      - p7zip-full
       - plocate
+      - p7zip-full
       - net-tools
       - apache2-utils
     state: present

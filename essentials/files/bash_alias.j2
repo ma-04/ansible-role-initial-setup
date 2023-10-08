@@ -1,5 +1,10 @@
 # [[ -f $HOME/.bash_alias ]] && source $HOME/.bash_alias
 
+code-remote () {
+    echo "starting remote vs-code session for $1/$2"
+    code --remote ssh-remote+$1 $2
+}
+
 ipl () {
     ipRegEx="^[0-9]{1,3}(\.[0-9]{1,3}){3}$"
     ipinfoAuth="{{ ipinfoAuth }}"
