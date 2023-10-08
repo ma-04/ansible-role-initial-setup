@@ -7,6 +7,13 @@
   become: true
   become_method: sudo
 
+- name: print wireguard ip for host
+  debug:
+    msg: "{{ hostvars[item].wireguard_ip.stdout }}"
+  with_items: "{{ groups['all'] }}"
+
+# check bellow for more info on how to use this task or if you are getting errors
+# make sure your hosts file is clean and only has hosts that you are using, remove extra hosts and empty host groups
 - name: Add IP address of all hosts to all hosts as text block
   blockinfile:
     dest: /etc/hosts
