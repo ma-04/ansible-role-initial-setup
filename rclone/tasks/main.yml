@@ -62,11 +62,14 @@
 
 - name: create rclone mount folder
   ansible.builtin.file:
-    path: /home/{{ ansible_user_id }}/mnt/
+    path: /home/{{ ansible_user_id }}/{{ item }}
     state: directory
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     mode: 0755
+  with_items:
+    - "{{ rclone_services }}"
+  when: rclone_services | length > 0
 
 - name: create individual mount point
   ansible.builtin.file:
