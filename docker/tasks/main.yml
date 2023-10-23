@@ -60,6 +60,14 @@
       - docker-compose-plugin
     state: present
 
+- name: install python sdk
+  become_user: "{{ ansible_user_id }}"
+  pip:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker
+
 - name: copy docker daemon config
   when: wg_docker_integrations == false
   ansible.builtin.template:

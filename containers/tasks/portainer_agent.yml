@@ -1,0 +1,13 @@
+- name: setup portainer_agent
+  community.docker.docker_container:
+    name: portainer_agent
+    image: portainer/agent:latest
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    ports:
+      - "{{ wireguard_ip.stdout | default('0.0.0.0') }}:29001:9001"
+    state: started

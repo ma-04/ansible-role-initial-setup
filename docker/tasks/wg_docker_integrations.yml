@@ -1,3 +1,9 @@
+- name: get wireguard ip for host from wg-server.conf file
+  ansible.builtin.shell: (cat /etc/wireguard/{{ wg_iface }}.conf | grep Address | awk '{print $3}' | awk -F/ '{print $1}')
+  register: wireguard_ip
+  become: true
+  become_method: sudo
+
 - name: wireguard ip
   debug:
     msg: "wireguard_ip {{ wireguard_ip.stdout }}"

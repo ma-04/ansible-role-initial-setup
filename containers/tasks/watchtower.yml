@@ -1,0 +1,24 @@
+- name: setup watchtower docker container
+  community.docker.docker_container:
+    name: watchtower
+    image: containrrr/watchtower
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    env:
+      WATCHTOWER_SCHEDULE: '0 0 * * *'
+      WATCHTOWER_MONITOR_ONLY: 'false'
+      WATCHTOWER_CLEANUP: 'true'
+      WATCHTOWER_DEBUG: 'true'
+      WATCHTOWER_LOG_LEVEL: info
+      WATCHTOWER_NOTIFICATION_URL: "{{ watchtower_notify_url }}"
+      WATCHTOWER_NOTIFICATION_TITLE_TAG: "{{ ansible_hostname }}"
+
+
+# basically equivalent to this docker run command:
+## docker run -d --name watchtower --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock \ 
+# -e WATCHTOWER_SCHEDULE='0 0 * * *' -e WATCHTOWER_MONITOR_ONLY=false -e WATCHTOWER_CLEANUP=true -e \ 
+# WATCHTOWER_DEBUG=true -e WATCHTOWER_LOG_LEVEL=info -e WATCHTOWER_NOTIFICATION_URL='notify' \ 
+#-e WATCHTOWER_NOTIFICATION_TITLE_TAG='vmname' containrrr/watchtower

@@ -42,6 +42,12 @@ ufw_enaled: false # set to false if you don't want to use ufw, default is false
 
 ## MariaDB variables ##
 
+## Docker containers to deploy
+watchtower: true # set to false if you don't want to install watchtower
+docker_default_ip_bind: "" # sets the default bind address for docker, leave it empty to use the default (0.0.0.0)
+watchtower_notify_url: "" # notification url for watchtower, see watchtower docs for more info "WATCHTOWER_NOTIFICATION_URL"
+
+portainer_agent: false # set to false if you don't want to install portainer agent
 
 # prometheus node-exporter variables
 enable_node_exporter: true # set to false if you don't want to install node_exporter
