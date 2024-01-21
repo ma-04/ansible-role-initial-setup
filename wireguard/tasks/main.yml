@@ -1,10 +1,10 @@
 - include_tasks: sysctl.yml
 
-- name: upgrade all packages
-  ansible.builtin.apt:
-    upgrade: true
-    update_cache: yes
-  become: true
+  #- name: upgrade all packages
+  #ansible.builtin.apt:
+  #  upgrade: true
+  #  update_cache: yes
+  #become: true
   
 - name: install wireguard
   ansible.builtin.apt:

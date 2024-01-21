@@ -4,10 +4,8 @@
       - fail2ban
     state: present
     autoclean: true
-    clean: true
     force_apt_get: true
     install_recommends: true
-    lock_timeout: 60
     update_cache: true
   become: true
 

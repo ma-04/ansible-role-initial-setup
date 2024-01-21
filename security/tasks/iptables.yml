@@ -6,9 +6,7 @@
       - iptables
       - iptables-persistent
     state: present
-    clean: true
     install_recomends: true
-    lock_timeout: 60
     update_cache: true
   become: true
 

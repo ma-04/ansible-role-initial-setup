@@ -13,6 +13,7 @@
     repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: ~/.oh-my-zsh
     update: true
+    force: true
   become: true
   become_user: "{{ item }}"
   loop:
