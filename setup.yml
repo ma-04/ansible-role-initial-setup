@@ -1,17 +1,20 @@
 - hosts:
     - all
   roles:
-    #  - test
+      # - test
       #- hostname
-      #- essentials
-      - rclone
-    #  - certbot
-      #- security
+      - essentials
+      #    # - rclone
+      # # - certbot
+      # - security
       #- wireguard
-      #- docker
-    #  - mariadb # only run on db server
+      # - docker
+      #- containers
+      # - mariadb # only run on db server
       #- prometheus
-    # - lxc  # only run on lxc server
+      # - lxc  # only run on lxc server
+      # - loki
+
   #become: yes
   become_method: sudo
   gather_facts: yes
