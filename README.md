@@ -19,6 +19,11 @@
 
 ### Required Files ###
 
+**Required for most roles**
+```bash
+ansible-galaxy install -r requirements.yml -p roles/galaxy/ --force
+```
+
 **For All**
 
 ```vars/main.yml```

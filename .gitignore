@@ -11,3 +11,14 @@ prometheus/files/*.crt
 prometheus/files/*.key
 rclone/files/rclone.conf
 lxc/files/.env-lxc-backups
+
+/inventory
+/roles/**/files/scratchpad
+.DS_Store
+.python-version
+.idea/
+.direnv/
+
+# ignore roles pulled by ansible-galaxy
+/roles/galaxy/*
+!/roles/galaxy/.gitkeep
