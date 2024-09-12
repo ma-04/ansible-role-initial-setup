@@ -13,3 +13,10 @@
   ansible.builtin.systemd: "name=ssh.service state=restarted"
   become: true
   become_method: sudo
+
+- name: restart ssh
+  ansible.builtin.service:
+    name: ssh.service
+    state: restarted
+    enabled: true
+  become: true
