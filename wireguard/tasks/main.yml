@@ -11,10 +11,9 @@
     name:
       - wireguard
       - wireguard-tools
-      - resolvconf
     install_recommends: yes
     state: present
-    update_cache: yes
+    autoclean: true
   become: true
 
 - name: ensure wireguard kernel module is loaded

@@ -10,7 +10,7 @@
 - name: print wireguard ip for host
   debug:
     msg: "{{ hostvars[item].wireguard_ip.stdout }}"
-  with_items: "{{ groups['all'] }}"
+  loop: "{{ groups['all'] }}"
 
 # check bellow for more info on how to use this task or if you are getting errors
 # make sure your hosts file is clean and only has hosts that you are using, remove extra hosts and empty host groups
@@ -25,7 +25,7 @@
     backup: false
   become: true
   become_method: sudo
-  with_items: "{{ groups['all'] }}"
+  loop: "{{ groups['all'] }}"
 
 # note that if u have any extra hosts in your inventory file that you are not using, this will throw an error
 # keep your inventory file clean
