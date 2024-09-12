@@ -23,9 +23,22 @@ wireguard_port: 51820 # change this to your desired port if u wish to allow wire
 wg_iface: wg-server # change this to your desired wireguard interface name
 internal_hostname_resolve: true # depends on domain variable, if domain is empty, this will be skipped
 # change this to false if you don't want to use internal hostname resolving with wireguard
-wg_docker_integrations: true # change this to false if you don't want to use wireguard with docker
+wg_docker_integrations: false # change this to false if you don't want to use wireguard with docker
 # This will set the default bind address for docker to the wireguard interface, so instead of the default
 # 0.0.0.0:80, it will be wg-server:80, this is useful if you want to use wireguard with docker
+
+## Docker install
+playbook_docker_installation_enabled: true
+docker_default_ip_bind: "{{ wireguard_ip.stdout if wg_docker_integrations | bool else '127.0.0.1' }}"
+docker_install_compose: true
+docker_install_compose_plugin: true
+docker_users:
+  - "{{ ansible_user_id }}"
+pip_install_packages:
+  - name: requests
+    version: "2.29.0"
+docker_daemon_options:
+  ip: "{{ docker_default_ip_bind }}"
 
 # security variables
 ssh_port: 22 # change this to your desired port
@@ -40,14 +53,15 @@ ufw_enaled: false # set to false if you don't want to use ufw, default is false
 # if both are false, nothing will be used
 # ufw only includes basic rules for ssh, wireguard, http, https, and extra_ports
 
-## MariaDB variables ##
-
 ## Docker containers to deploy
 watchtower: true # set to false if you don't want to install watchtower
-docker_default_ip_bind: "" # sets the default bind address for docker, leave it empty to use the default (0.0.0.0)
 watchtower_notify_url: "" # notification url for watchtower, see watchtower docs for more info "WATCHTOWER_NOTIFICATION_URL"
 
 portainer_agent: false # set to false if you don't want to install portainer agent
+
+## MariaDB variables ##
+
+mariadb_host: ""
 
 # prometheus node-exporter variables
 enable_node_exporter: true # set to false if you don't want to install node_exporter
@@ -56,5 +70,7 @@ prometheus_basic_auth_password: "$2a$10$tRfFmivM4pyrO6xWxVkWGehiJMDB5gZkJPeG8XUa
 # prometheus tls variables
 prometheus_tls_server_config_cert_file: "/etc/node_exporter/node_exporter.crt"
 prometheus_tls_server_config_key_file: "/etc/node_exporter/node_exporter.key"
-# genarate a tls certificate with openssl and place them in prometheus/files/: 
-#  openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout node_exporter.key -out node_exporter.crt -subj "/C=CH/ST=SG/L=Basel/O=dbi/CN=localhost" -addext "subjectAltName = DNS:localhost" 
+# genarate a tls certificate with openssl and place them in prometheus/files/:
+#  openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout node_exporter.key -out node_exporter.crt -subj "/C=CH/ST=SG/L=Basel/O=dbi/CN=localhost" -addext "subjectAltName = DNS:localhost"
+
+# logging/loki config ..todo..
