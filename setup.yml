@@ -7,25 +7,24 @@
   vars_files:
     - vars/main.yml
   roles:
-      # - test
       - hostname
       - essentials
-      #    # - rclone
-      # # - certbot
       - security
       - wireguard
-        - when: playbook_docker_installation_enabled | bool
-          role: galaxy/docker
-          vars:
-            docker_install_compose: true
-            docker_install_compose_plugin: true
-            docker_users: "{{ ansible_user_id }}"                                                                                               
-          tags:
-            - setup-docker
-            - setup-all
-            - install-docker
-            - install-all
+      - when: playbook_docker_installation_enabled | bool
+        role: galaxy/docker
+        vars:
+          docker_install_compose: true
+          docker_install_compose_plugin: true
+          docker_users: "{{ ansible_user_id }}"                                                                                               
+        tags:
+          - setup-docker
+          - setup-all
+          - install-docker
+          - install-all
       - containers
+      #- rclone
+      # # - certbot
       # - mariadb # only run on db server
       #- prometheus
       # - lxc  # only run on lxc server
