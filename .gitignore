@@ -12,6 +12,8 @@ prometheus/files/*.key
 rclone/files/rclone.conf
 lxc/files/.env-lxc-backups
 vars/bdix.main.yml
+bdix.yml
+update2.yml
 
 /inventory
 /roles/**/files/scratchpad
