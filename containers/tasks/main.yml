@@ -14,3 +14,6 @@
 
 - include_tasks: portainer_agent.yml
   when: portainer_agent == true
+
+- include_tasks: uptime_kuma.yml
+  when: uptime_kuma == true and inventory_hostname in groups['uptime_kuma']

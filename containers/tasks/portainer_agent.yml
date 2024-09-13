@@ -9,5 +9,5 @@
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
     ports:
-      - "{{ wireguard_ip.stdout | default('0.0.0.0') }}:29001:9001"
+      - "{{ docker_default_ip_bind }}:29001:9001"
     state: started

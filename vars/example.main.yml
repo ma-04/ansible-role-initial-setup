@@ -54,10 +54,13 @@ ufw_enaled: false # set to false if you don't want to use ufw, default is false
 # ufw only includes basic rules for ssh, wireguard, http, https, and extra_ports
 
 ## Docker containers to deploy
+docker_data_dir: "/home/{{ ansible_user_id }}/.docker_data"
 watchtower: true # set to false if you don't want to install watchtower
 watchtower_notify_url: "" # notification url for watchtower, see watchtower docs for more info "WATCHTOWER_NOTIFICATION_URL"
 
 portainer_agent: false # set to false if you don't want to install portainer agent
+
+uptime_kuma: true # set a host in ansible host to be part of a group called uptime-kuma
 
 ## MariaDB variables ##
 

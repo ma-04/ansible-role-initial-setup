@@ -24,16 +24,23 @@
 ansible-galaxy install -r requirements.yml -p roles/galaxy/ --force
 ```
 
-**For All**
+**Variables for For All**
 
 ```vars/main.yml```
-# rename example.main.yml to main.yml
+<br>rename example.main.yml to main.yml
 
 **Wireguard**
 
 ```wireguard/files/{{ inventory_hostname }}.conf ```
 
 For wireguard server config file, wireguard/files folder doesnt exist and needs to be created
+
+### Containers
+- Portainer agent
+- Watchtower
+- Uptime-Kuma
+    - Requires a group in ansible host with the name `uptime_kuma` for installation to that groups vm
+
 
 **certbot**
 
@@ -42,7 +49,7 @@ For wireguard server config file, wireguard/files folder doesnt exist and needs 
 For certbot dns validation
 
 **LXC**
-```lxc/files/.env-lac-backups```
+<br>```lxc/files/.env-lac-backups```
 
 **Prometheus**
 

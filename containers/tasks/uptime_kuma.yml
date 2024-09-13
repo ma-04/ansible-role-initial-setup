@@ -1,0 +1,25 @@
+- name: ensure that docker_data_dir exists
+  ansible.builtin.stat:
+    path: "{{ docker_data_dir }}"
+  register: docker_data_dir_stat
+
+- name: Ensure docker_data_dir exists
+  ansible.builtin.file:
+    path: "{{ docker_data_dir }}"
+    state: directory
+    mode: '0644'
+  when: docker_data_dir_stat is not defined or docker_data_dir_stat.stat.exists == false
+
+- name: Setup Uptime-Kuma
+  community.docker.docker_container:
+    name: uptime-kuma
+    image: louislam/uptime-kuma:latest
+    pull: true
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ docker_data_dir }}/uptime-kuma:/app/data"
+    ports:
+      - "{{ docker_default_ip_bind }}:3001:3001"
+    env:
+      TZ: "{{ lookup('env', 'TZ') }}"
