@@ -1,7 +1,9 @@
 - name: upgrade all packages
   ansible.builtin.apt:
-    upgrade: true
+    upgrade: safe
     update_cache: yes
+    autoclean: true
+    autoremove: true
   become: true
 
 - include_tasks: packages.yml
@@ -9,7 +11,7 @@
 - include_tasks: zsh.yml
 #- include_tasks: dns_update.yml
 #- include_tasks: br0.yml
-- include_tasks: loopback.yml
+#- include_tasks: loopback.yml
 - include_tasks: swap.yml
 
 - name: create script directory in /root/
