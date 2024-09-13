@@ -9,7 +9,7 @@
 
 - name: print wireguard ip for host
   debug:
-    msg: "{{ hostvars[item].wireguard_ip.stdout }}"
+    msg: "{{ hostvars[item].wireguard_ip.stdout | default('wireguard_ip not set') }}"
   loop: "{{ groups['all'] }}"
 
 # check bellow for more info on how to use this task or if you are getting errors

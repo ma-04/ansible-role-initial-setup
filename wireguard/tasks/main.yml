@@ -2,19 +2,20 @@
 
   #- name: upgrade all packages
   #ansible.builtin.apt:
-  #  upgrade: true
+  #  upgrade: safe
   #  update_cache: yes
   #become: true
   
 - name: install wireguard
   ansible.builtin.apt:
-    name:
-      - wireguard
-      - wireguard-tools
+    name: "{{ item }}"
     install_recommends: yes
     state: present
     autoclean: true
   become: true
+  loop:
+    - wireguard
+    - wireguard-tools
 
 - name: ensure wireguard kernel module is loaded
   ansible.builtin.modprobe:
