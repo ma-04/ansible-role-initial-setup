@@ -8,7 +8,7 @@
 
     - name: update apt packages
       apt:
-        upgrade: yes
+        upgrade: safe
         update_cache: yes
 
     - name: check if reboot is required
