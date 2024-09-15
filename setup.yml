@@ -7,8 +7,8 @@
   vars_files:
     - vars/main.yml
   roles:
-      # - essentials
-      # - security
+      - essentials
+      - security
       - wireguard
       - when: playbook_docker_installation_enabled | bool
         role: galaxy/docker

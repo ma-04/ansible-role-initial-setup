@@ -6,6 +6,11 @@
   become: true
   when: resolvconf_dns_server is defined
 
+- name: Register Device/VM to Ubuntu Pro
+  ansible.builtin.shell: sudo pro attach {{ ubuntu_pro_token }}
+  become: true
+  when: ansible_distribution == 'Ubuntu' and ubuntu_pro_token is defined
+
 - name: upgrade all packages
   ansible.builtin.apt:
     upgrade: safe
