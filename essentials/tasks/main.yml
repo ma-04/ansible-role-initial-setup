@@ -6,6 +6,7 @@
     autoremove: true
   become: true
 
+- include_tasks: hostname.yml
 - include_tasks: packages.yml
 - include_tasks: bash.yml
 - include_tasks: zsh.yml
@@ -13,12 +14,3 @@
 #- include_tasks: br0.yml
 #- include_tasks: loopback.yml
 - include_tasks: swap.yml
-
-- name: create script directory in /root/
-  ansible.builtin.file:
-    path: /root/scripts
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
-  become: true

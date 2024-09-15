@@ -1,5 +1,5 @@
 - hosts:
-    - all
+    - active
   #become: yes
   become_method: sudo
   gather_facts: yes
@@ -7,18 +7,17 @@
   vars_files:
     - vars/main.yml
   roles:
-      #- hostname
       - essentials
-      #- security
-      # - wireguard
-      # - when: playbook_docker_installation_enabled | bool
-      #   role: galaxy/docker
-      #   tags:
-      #     - setup-docker
-      #     - setup-all
-      #     - install-docker
-      #     - install-all
-      # - containers
+      - security
+      - wireguard
+      - when: playbook_docker_installation_enabled | bool
+        role: galaxy/docker
+        tags:
+          - setup-docker
+          - setup-all
+          - install-docker
+          - install-all
+      - containers
       #- rclone
       # # - certbot
       # - mariadb # only run on db server

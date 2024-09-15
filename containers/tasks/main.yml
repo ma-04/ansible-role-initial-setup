@@ -5,15 +5,14 @@
   ansible.builtin.shell: (cat /etc/wireguard/{{ wg_iface }}.conf | grep Address | awk '{print $3}' | awk -F/ '{print $1}')
   register: wireguard_ip
   become: true
-  become_method: sudo
   when: wg_docker_integrations == true
+
+- include_tasks: portainer_agent.yml
+  when: portainer_agent == true
 
 
 - include_tasks: watchtower.yml
   when: watchtower == true
-
-- include_tasks: portainer_agent.yml
-  when: portainer_agent == true
 
 - include_tasks: uptime_kuma.yml
   when: uptime_kuma == true and inventory_hostname in groups['uptime_kuma']
