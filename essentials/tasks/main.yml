@@ -1,3 +1,11 @@
+- name: add dns to resolv.conf
+  ansible.builtin.lineinfile:
+    path: /etc/resolv.conf
+    line: "nameserver {{ resolvconf_dns_server }}"
+    state: present
+  become: true
+  when: resolvconf_dns_server is defined
+
 - name: upgrade all packages
   ansible.builtin.apt:
     upgrade: safe
