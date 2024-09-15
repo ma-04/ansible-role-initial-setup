@@ -18,6 +18,9 @@
       - p7zip-full
       - net-tools
       - apache2-utils
+      - apt-transport-https
+      - ca-certificates
+      - curl
     state: present
     autoclean: true
     force_apt_get: true
