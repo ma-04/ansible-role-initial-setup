@@ -13,6 +13,11 @@
   become: true
   become_method: sudo
 
+- name: restart ssh
+  ansible.builtin.systemd: "name=ssh.service state=restarted"
+  become: true
+  become_method: sudo
+  
 - name: restart docker
   ansible.builtin.systemd:
     name: docker.service

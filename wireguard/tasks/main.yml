@@ -37,6 +37,8 @@
     group: root
     mode: 0600
   become: true
+  notify:
+    - restart wg-server
 
 - name: ensure wg-quick@wg-server.service is started and enabled at boot
   ansible.builtin.service:

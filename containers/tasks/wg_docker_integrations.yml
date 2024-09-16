@@ -7,13 +7,3 @@
 - name: wireguard ip
   debug:
     msg: "wireguard_ip {{ wireguard_ip.stdout }}"
-
-- name: wireguard integration by default
-  ansible.builtin.template:
-    src: files/daemon.wg.json.j2
-    dest: /etc/docker/daemon.json
-    mode: '644'
-    owner: root
-    group: root
-  become: true
-  notify: restart docker

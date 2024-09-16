@@ -2,6 +2,7 @@
   ansible.builtin.systemd:
     name: wg-quick@wg-server.service
     state: restarted
+  become: true
 
 - name: restart sysctl
   ansible.builtin.shell: "sysctl --system"
