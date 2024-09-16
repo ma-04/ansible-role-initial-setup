@@ -37,6 +37,7 @@ For wireguard server config file, wireguard/files folder doesnt exist and needs 
 
 ### Containers
 - Portainer agent
+    - By default, setup a portainer agent container for all host except any host with the group name 'reverse_proxy'
 - Watchtower
 - Uptime-Kuma
     - Requires a group in ansible host with the name `uptime_kuma` for installation to that groups vm

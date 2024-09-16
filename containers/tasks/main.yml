@@ -8,7 +8,7 @@
   when: wg_docker_integrations == true
 
 - include_tasks: portainer_agent.yml
-  when: portainer_agent == true
+  when: portainer_agent == true and inventory_hostname not in groups['reverse_proxy']
 
 
 - include_tasks: watchtower.yml
