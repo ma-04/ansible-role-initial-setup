@@ -12,7 +12,7 @@ the_user: "{{ ansible_user_id }}"
 the_user_home: "/home/{{ the_user }}"
 ipinfoAuth: "" # https://ipinfo.io/account/token
 resolvconf_dns_server: 1.1.1.1
-ubuntu_pro_token: "" # Ubuntu Pro token
+#ubuntu_pro_token: "" # Ubuntu Pro token
 
 # Rclone variables
 rclone_services: ["backup"] # change this to your desired rclone services
