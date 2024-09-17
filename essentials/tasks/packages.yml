@@ -1,7 +1,13 @@
 - name: install packages
   become: true
   ansible.builtin.apt:
-    name:
+    name: {{ item }}
+    state: present
+    autoclean: true
+    force_apt_get: true
+    install_recommends: true
+    update_cache: true
+  loop:
       - zsh
       - fail2ban
       - vim
@@ -21,11 +27,6 @@
       - apt-transport-https
       - ca-certificates
       - curl
-    state: present
-    autoclean: true
-    force_apt_get: true
-    install_recommends: true
-    update_cache: true
 
 - name: symlink vim
   become: true
