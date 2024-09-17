@@ -1,6 +1,6 @@
 venv/
 .vault_password
-wireguard/files/
+wireguard/files/*
 hosts
 notes.txt
 certbot/certbot/credentials.ini
