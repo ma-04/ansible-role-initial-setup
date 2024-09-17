@@ -18,7 +18,7 @@
     mode: '0644'
   become: true
 
-- name: copy user ipv5 rules to ufw
+- name: copy user ipv6 rules to ufw
   ansible.builtin.template:
     src: files/ufw.user6.rules.j2
     dest: /etc/ufw/user6.rules
