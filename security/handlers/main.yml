@@ -1,20 +1,28 @@
 - name: restart nftables
-  ansible.builtin.systemd: "name=nftables.service state=restarted"
-  become: true
-  become_method: sudo
-
-- name: restart fail2ban
-  ansible.builtin.systemd: "name=fail2ban.service state=restarted"
-  become: true
-  become_method: sudo
-
-- name: restart ufw
-  ansible.builtin.systemd: "name=ufw.service state=restarted"
+  ansible.builtin.systemd:
+    name: nftables.service
+    state: restarted
   become: true
   become_method: sudo
 
 - name: restart ssh
-  ansible.builtin.systemd: "name=ssh.service state=restarted"
+  ansible.builtin.systemd:
+    name: ssh.service
+    state: restarted
+  become: true
+  become_method: sudo
+
+- name: restart fail2ban
+  ansible.builtin.systemd:
+    name: fail2ban.service
+    state: restarted
+  become: true
+  become_method: sudo
+
+- name: restart ufw
+  ansible.builtin.systemd:
+    name: ufw.service
+    state: restarted
   become: true
   become_method: sudo
   
