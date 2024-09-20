@@ -8,20 +8,20 @@
   register: dataloss_warning
 
 - include_tasks: azure.swap.yml
-  when: "'.az' in inventory_hostname" and dataloss_warning.stat.exists
+  when: ('.az' in inventory_hostname) and (dataloss_warning.stat.exists)
 
 - name: check if swap file exist in /swapfile
   become: true
   stat: 
     path: "/swapfile"
   register: swapfile
-  when: "'.az' not in inventory_hostname" or (not dataloss_warning.stat.exists)
+  when: ('.az' not in inventory_hostname) or (not dataloss_warning.stat.exists)
 
 - name: check if swap is on
   become: true
   ansible.builtin.command: "swapon -s | grep -v Filename"
   register: swap
-  when: "'.az' not in inventory_hostname" or (not dataloss_warning.stat.exists)
+  when: ('.az' not in inventory_hostname) or (not dataloss_warning.stat.exists)
 ## When swap is on "swapon -s | grep -v Filename" will return a string
 ## so we are using that to verify is swap is on or not
 ## when its off, it will return nothing
