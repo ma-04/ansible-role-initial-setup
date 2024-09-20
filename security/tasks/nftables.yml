@@ -34,6 +34,5 @@
     mode: '0755'
   become: true
   notify:
-    - start nftables
     - restart nftables
     - restart docker
