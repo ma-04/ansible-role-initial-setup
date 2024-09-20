@@ -16,7 +16,7 @@
     upgrade: safe
     update_cache: yes
     autoclean: true
-    autoremove: true
+    autoremove: false
   become: true
 
 - include_tasks: hostname.yml

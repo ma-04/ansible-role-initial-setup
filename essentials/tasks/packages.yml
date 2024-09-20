@@ -1,7 +1,7 @@
 - name: install packages
   become: true
   ansible.builtin.apt:
-    name: {{ item }}
+    name: "{{ item }}"
     state: present
     autoclean: true
     force_apt_get: true
