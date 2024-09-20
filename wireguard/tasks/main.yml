@@ -1,6 +1,6 @@
 - name: enable ip_forwardning
   ansible.builtin.sysctl:
-    name: {{ item }}
+    name: "{{ item }}"
     value: 1
     state: present
     reload: yes
