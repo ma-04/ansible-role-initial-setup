@@ -1,6 +1,6 @@
 ### What can this do? ###
 
-## This playbook will do: (Everything here is customisable)
+## This playbook will do: (Everything here is customisable) (Primarily made for Ubuntu/Debian based systems)
 
 - add hostname (from ansible hostname) to /etc/hosts 
 - Install some packages
