@@ -34,12 +34,6 @@
     mode: '0755'
   become: true
   notify:
+    - start nftables
     - restart nftables
     - restart docker
-
-- name: starting nftables
-  ansible.builtin.service:
-    name: nftables
-    state: started
-    enabled: true
-  become: true

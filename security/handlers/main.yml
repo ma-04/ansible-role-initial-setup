@@ -1,33 +1,33 @@
+- name: start nftables
+  ansible.builtin.service:
+    name: nftables.service
+    state: started
+  become: true
+  become_method: sudo
+
 - name: restart nftables
-  ansible.builtin.systemd:
+  ansible.builtin.service:
     name: nftables.service
     state: restarted
   become: true
   become_method: sudo
 
-- name: restart ssh
-  ansible.builtin.systemd:
-    name: ssh.service
-    state: restarted
-  become: true
-  become_method: sudo
-
 - name: restart fail2ban
-  ansible.builtin.systemd:
+  ansible.builtin.service:
     name: fail2ban.service
     state: restarted
   become: true
   become_method: sudo
 
 - name: restart ufw
-  ansible.builtin.systemd:
+  ansible.builtin.service:
     name: ufw.service
     state: restarted
   become: true
   become_method: sudo
   
 - name: restart docker
-  ansible.builtin.systemd:
+  ansible.builtin.service:
     name: docker.service
     state: restarted
   become: true

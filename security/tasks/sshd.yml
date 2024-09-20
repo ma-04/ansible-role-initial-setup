@@ -8,5 +8,9 @@
     backup: yes
     validate: /usr/sbin/sshd -t -f %s
   become: true
-  notify:
-    - restart ssh
+
+- name: restart ssh
+  service:
+    name: ssh
+    state: restarted
+  become: true
