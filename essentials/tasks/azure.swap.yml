@@ -6,14 +6,7 @@
     owner: root
     group: root
     mode: '755'
-  when: "'.az' in inventory_hostname"
-
-- name: Hostname contains .az
-  debug:
-    msg: Contains .az
-  when: "'.az' in inventory_hostname"
 
 - name: run azure swap script
   become: true
   ansible.builtin.command: "/var/lib/cloud/scripts/per-boot/swap.sh"
-  when: "'.az' in inventory_hostname"

@@ -2,32 +2,37 @@
 ## This playbook will check if swap file exist, if not it will create one
 ## This playbook will check if the hostname contains .az (short for azure), if yes it will run the azure.yml file
 ## azure provides a temporary storage that can be used for swap file
+- name: check if azure host has any TEMPORARY DISK mounted on /mnt
+  ansible.builtin.stat:
+    path: /mnt/DATALOSS_WARNING_README.txt
+  register: dataloss_warning
+
 - include_tasks: azure.swap.yml
-  when: "'.az' in inventory_hostname"
+  when: "'.az' in inventory_hostname" and dataloss_warning.stat.exists
 
 - name: check if swap file exist in /swapfile
   become: true
   stat: 
     path: "/swapfile"
   register: swapfile
-  when: "'.az' not in inventory_hostname" 
+  when: "'.az' not in inventory_hostname" or (not dataloss_warning.stat.exists)
 
 - name: check if swap is on
   become: true
   ansible.builtin.command: "swapon -s | grep -v Filename"
   register: swap
-  when: "'.az' not in inventory_hostname"
+  when: "'.az' not in inventory_hostname" or (not dataloss_warning.stat.exists)
 ## When swap is on "swapon -s | grep -v Filename" will return a string
 ## so we are using that to verify is swap is on or not
 ## when its off, it will return nothing
 
 - name: create swapfile
-  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists)
+  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists) and (not dataloss_warning.stat.exists)
   become: true
   ansible.builtin.command: "fallocate -l 2G /swapfile"
     
 - name: set swapfile permission
-  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists)
+  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists) and (not dataloss_warning.stat.exists)
   become: true
   ansible.builtin.file:
     path: /swapfile
@@ -35,11 +40,11 @@
 
 - name: format swap file
   become: true
-  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists)
+  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists) and (not dataloss_warning.stat.exists)
   ansible.builtin.command: "mkswap /swapfile"
 
 - name: add to fstab
-  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists)
+  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not swapfile.stat.exists) and (not dataloss_warning.stat.exists)
   become: true
   ansible.builtin.lineinfile:
     path: /etc/fstab
@@ -48,7 +53,7 @@
 - name: turn on swap
   become: true
   ansible.builtin.command: "swapon -a"
-  when: ('.az' not in inventory_hostname) and (swap.stdout == '') 
+  when: ('.az' not in inventory_hostname) and (swap.stdout == '') and (not dataloss_warning.stat.exists)
 
 # - name: set swapiness
 #   become: true
