@@ -14,6 +14,7 @@ lxc/files/.env-lxc-backups
 vars/bdix.main.yml
 bdix.yml
 update2.yml
+other_hosts
 
 /inventory
 /roles/**/files/scratchpad

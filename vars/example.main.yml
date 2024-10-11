@@ -7,7 +7,7 @@
 
 backup_dir: "/home/{{ ansible_user_id }}/mnt/backup"
 
-domain: ""
+domain: "" ## Defaults to .local
 the_user: "{{ ansible_user_id }}"
 the_user_home: "/home/{{ the_user }}"
 ipinfoAuth: "" # https://ipinfo.io/account/token

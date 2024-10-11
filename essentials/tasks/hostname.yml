@@ -12,6 +12,5 @@
 - name: "{{ inventory_hostname }}.{{ domain }}"
   ansible.builtin.lineinfile:
     path: /etc/hosts
-    line: "127.0.0.1 {{ inventory_hostname }}.{{ domain }}"
+    line: "127.0.0.1 {{ inventory_hostname }}.{{ domain | default('local') }}"
   become: true
-  when: domain != ""
