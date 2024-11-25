@@ -22,8 +22,8 @@
     - "{{ ansible_user_id }}"
 
 - name: copy zsh custom config
-  ansible.builtin.copy:
-    src: files/zshrc
+  ansible.builtin.template:
+    src: files/zshrc.j2
     dest: ~/.zshrc
     owner: "{{ item }}"
     group: "{{ item }}"
